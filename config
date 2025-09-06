@@ -1,0 +1,10 @@
+Host krozario.remote.machine
+    HostName <LOCAL_IP_ADDRESS>
+    IdentityFile ~/.ssh/google_compute_engine
+    UserKnownHostsFile ~/.ssh/google_compute_known_hosts
+    ProxyCommand gcloud compute start-iap-tunnel "<INSTANCE_NAME>" %p --listen-on-stdin --project "<PROJECT_ID>" --zone=<ZONE_NAME> --verbosity=warning
+	StrictHostKeyChecking no
+	User <USERNAME_REPLACE_ALL_@_AND_DOT_WITH_UNDERSCORE> # e.g. k@k.com ==> k_k_com
+
+
+
