@@ -23,7 +23,7 @@ resource "google_compute_router_nat" "nat" {
   region                             = var.region
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-  endpoint_types = ["ENDPOINT_TYPE_MANAGED_PROXY_LB", "ENDPOINT_TYPE_VM", "ENDPOINT_TYPE_SWG"]
+  endpoint_types                     = ["ENDPOINT_TYPE_MANAGED_PROXY_LB", "ENDPOINT_TYPE_VM", "ENDPOINT_TYPE_SWG"]
 
   log_config {
     enable = true
@@ -55,6 +55,20 @@ resource "google_compute_firewall" "port-forward" {
   allow {
     protocol = "tcp"
     ports    = ["8080"]
+  }
+  target_tags = [] # apply to all instances in the VPC
+}
+
+# allow all access from IAP ranges
+resource "google_compute_firewall" "iap-windows" {
+  name          = "${var.network_name}-iap-windows"
+  direction     = "INGRESS"
+  network       = google_compute_network.this.id
+  source_ranges = ["35.235.240.0/20"]
+  priority      = 1002
+  allow {
+    protocol = "tcp"
+    ports    = ["3389"]
   }
   target_tags = [] # apply to all instances in the VPC
 }

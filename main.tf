@@ -17,20 +17,20 @@ resource "google_compute_instance" "this" {
   machine_type = "c4d-standard-4"
   zone         = "asia-southeast1-a" # will need to set this so iap command will work
 
-  tags         = ["allow-health-check"]
+  tags = ["allow-health-check"]
 
   boot_disk {
     auto_delete = false
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2504-amd64"
-      size = 100
-      provisioned_iops = 3000
+      image                  = "ubuntu-os-cloud/ubuntu-2504-amd64"
+      size                   = 1000
+      provisioned_iops       = 3500
       provisioned_throughput = 200
     }
   }
 
   network_interface {
-    network =  module.vpc.network_id
+    network    = module.vpc.network_id
     subnetwork = google_compute_subnetwork.this.id
     network_ip = "10.1.0.6" # needs to be static for ssh command to work 
   }
@@ -44,10 +44,10 @@ resource "google_compute_instance" "this" {
     enable_integrity_monitoring = true
   }
 
-#   attached_disk {
-#     source      = google_compute_disk.this.self_link
-#     device_name = "hyperdisk"
-#   }
+  #   attached_disk {
+  #     source      = google_compute_disk.this.self_link
+  #     device_name = "hyperdisk"
+  #   }
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
