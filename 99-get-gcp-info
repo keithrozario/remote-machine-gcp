@@ -1,0 +1,38 @@
+#!/bin/bash
+
+echo -e "\n"
+
+# Get current GCP Project
+PROJECT=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/project/project-id 2>/dev/null)
+echo "GCP Project ID: $PROJECT"
+
+# Get current VM Name
+VM_NAME=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name 2>/dev/null)
+echo "VM Name: $VM_NAME"
+
+# Get current GCP Zone
+ZONE_FULL=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone 2>/dev/null)
+if [ ! -z "$ZONE_FULL" ]; then
+  ZONE=$(basename "$ZONE_FULL") # basename gives you everything after the last "/"
+else
+  ZONE="(unset)"
+fi
+echo "VM VPC Zone: $ZONE_FULL"
+
+# Get current active account (Service Account)
+ACCOUNT=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email 2>/dev/null)
+if [ -z "$ACCOUNT" ]; then
+  ACCOUNT="(unset)"
+fi
+echo "Service Account: $ACCOUNT"
+
+echo ""
+echo "To create an IAP tunnel to this VM, run the following command:"
+echo "------------------------------------------------------------"
+echo "gcloud compute start-iap-tunnel $VM_NAME 8080 \\"
+echo "  --local-host-port=localhost:8080 \\"
+echo "  --zone=$ZONE \\"
+echo "  --project=$PROJECT"
+echo "------------------------------------------------------------"
+echo "Note: Service has to be up on remote before executing the command above"
+echo -e "\n"
