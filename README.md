@@ -59,13 +59,13 @@ Then we create a iap tunnel and bind to our localhost:
 
     $ gcloud compute start-iap-tunnel remote-machine-windows 3389 \
     --local-host-port=localhost:3389 \
-    --zone=asia-southeast1-a \
-    --project=remote-machine-b7af52b6
+    --zone=<ZONE_NAME>  \
+    --project=<PROJECT_ID>
 
 Finally using the windows app on MacOS (or some other RDP client), we connect to localhost:3389
 
 ## Extra: Updating MOTD
 
-On Linux boxes like Ubuntu we can update the "message of the day" so that the port binding instructions are printed directly when you login. If you run " so that the port binding instructions are printed directly when you login. If you run `99-get-gcp-info`, you'll get the required command straight from the VM, my preferred option is to copy this file to `/etc/update-motd.d/` to display this message on every logon. That way I don't have to remember anything.
+On Linux boxes like Ubuntu we can update the "message of the day" so that the port binding instructions are printed directly when you login. If you run `99-get-gcp-info`, you'll get the required port binding command for your local straight from the VM (without needing to check zones or project IDs), my preferred option is to copy this file to `/etc/update-motd.d/` to display this message on every logon. That way I don't have to remember anything.
 
 
