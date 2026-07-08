@@ -19,8 +19,8 @@ This project:
 
 Modify `variables.tf` to change the region and stack_name, then:
 
-  tf init
-  tf apply --auto-approve
+    tf init
+    tf apply --auto-approve
 
 Modify `config` below and then paste into your own location, on macOS this is typically `~/.ssh/config`.
 
@@ -34,7 +34,7 @@ Modify `config` below and then paste into your own location, on macOS this is ty
 
 # Usage
 
- ssh <hostname>
+     ssh <hostname>
 
 Because it works like normal ssh, you can even use remote VSCode for this, the host will appear when you try to logon to a remote machine because it references the ssh config file.
 
@@ -42,10 +42,10 @@ Because it works like normal ssh, you can even use remote VSCode for this, the h
 
 Sometimes you want to bind ports on the remote to your local, so you can host webserver on the remote and access it via localhost on your local:
 
- $ gcloud compute start-iap-tunnel remote-machine 8080 \
-   --local-host-port=localhost:8080 \
-   --zone=<ZONE_NAME> \
-   --project=<PROJECT_ID>
+     gcloud compute start-iap-tunnel remote-machine 8080 \
+     --local-host-port=localhost:8080 \
+     --zone=<ZONE_NAME> \
+     --project=<PROJECT_ID>
 
 Because of the firewall rules set via terraform only port 8080 is open for now. You can modify this if you want to bind another port on the remote by changing the firewall rules to allow other ports for the IAP access.
 
