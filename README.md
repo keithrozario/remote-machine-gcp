@@ -19,8 +19,8 @@ This project:
 
 Modify `variables.tf` to change the region and stack_name, then:
 
- tf init
- tf apply --auto-approve
+  tf init
+  tf apply --auto-approve
 
 Modify `config` below and then paste into your own location, on macOS this is typically `~/.ssh/config`.
 
